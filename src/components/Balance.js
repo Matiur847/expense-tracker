@@ -1,25 +1,15 @@
-import React, { useContext, useState } from 'react';
-import { GlobalContext, GlobalState } from '../App';
-
+import React from 'react';
+import { useSelector } from 'react-redux';
 const Balance = () => {
+
+    const allTransaction = useSelector((state) => state.transactions.transactions)
     
-    // const [context, setContext] = useContext(GlobalContext);
-
-    const {transactions} = useContext(GlobalState)
-
-    const total = transactions.reduce((total, product) => total + product.amount, 0).toFixed(2)
-
-    // let total = (0).toFixed(2);
-    // for (let i = 0; i < transactions.length; i++) {
-    //     const transaction = transactions[i];
-    //     total = total + transaction.amount
-    // }
-
+    const totalPrice = allTransaction.reduce((inTotal, product) => inTotal + product.amount, 0)
     
     return (
         <>
             <h4>Your Balance</h4>
-            <h1>${total}</h1>
+            <h1>${totalPrice}</h1>
         </>
     );
 };

@@ -1,32 +1,24 @@
-import React, { useContext } from 'react';
-import { GlobalContext, GlobalState } from '../App';
+import React from 'react';
+import { useSelector } from 'react-redux';
 
 const IncomeExpenses = () => {
 
-    // const [context, setContext] = useContext(GlobalContext)
-    // console.log(context)
+    const allTransaction = useSelector((state) => state.transactions.transactions)
 
-    const {transactions} = useContext(GlobalState);
-    const amounts = transactions.map(transaction => transaction.amount);
+    const price = allTransaction.map((transaction) => transaction.amount)
+    const incomeAmount = price.filter((price) => price > 0).reduce((account, amount) => account += amount, 0)
 
-    const income = amounts
-        .filter(item => item > 0)
-        .reduce((acc, item) => (acc += item), 0);
-
-    const expense = (
-        amounts.filter(item => item < 0).reduce((acc, item) => (acc += item), 0) *
-        -1
-    );
+    const expenseAmount = price.filter((price) => price < 0).reduce((account, amount) => (account += amount), 0) * -1
 
     return (
         <div className="inc-exp-container">
             <div>
                 <h4>Income</h4>
-                <p id="money-plus" className="money plus">$ +{income}</p>
+                <p id="money-plus" className="money plus">$ +{incomeAmount}</p>
             </div>
             <div>
                 <h4>Expense</h4>
-                <p id="money-minus" className="money minus">$ -{expense}</p>
+                <p id="money-minus" className="money minus">$ -{expenseAmount}</p>
             </div>
         </div>
 

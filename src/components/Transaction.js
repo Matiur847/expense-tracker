@@ -1,16 +1,21 @@
-import React, { useContext } from 'react';
-import { GlobalState } from '../App';
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import { transactionActions } from '../store/transactions';
 
 const Transaction = (props) => {
     const { transaction } = props
 
-    const {removeTransaction} = useContext(GlobalState)
+    const dispatch = useDispatch();
+
+    const removeItem = (id) => {
+        dispatch(transactionActions.removeTransaction(id))
+    }
 
     const IsSign = transaction.amount < 0 ? '-' : '+'
     return (
         <li className={transaction.amount < 0 ? 'plus' : 'minus'}>
             {transaction.text} <span>{IsSign}${Math.abs(transaction.amount)}</span>
-            <button className="delete-btn" onClick={() => removeTransaction(transaction.id)}>x</button>
+            <button className="delete-btn" onClick={() => removeItem(transaction.id)}>x</button>
         </li>
     );
 };
